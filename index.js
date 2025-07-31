@@ -1,10 +1,13 @@
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 const app = express()
+const userRoutes = require("./routes/user")
 
 require("dotenv").config();
 const PORT  = process.env.PORT||3000
 const url = process.env.MongoDB_URL
+
+app.use(express.json());
 
 function connectMongoDB(){
     try{
@@ -17,7 +20,7 @@ function connectMongoDB(){
    
 }
 
-
+app.use("/api/v1/users", userRoutes)
 
 app.get("/",(req,res)=>{
     res.send("Hello")
