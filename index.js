@@ -2,6 +2,7 @@ const express = require("express");
 const { default: mongoose } = require("mongoose");
 const app = express()
 const userRoutes = require("./routes/user")
+const categoryRoutes = require("./routes/category")
 
 require("dotenv").config();
 const PORT  = process.env.PORT||3000
@@ -21,6 +22,7 @@ function connectMongoDB(){
 }
 
 app.use("/api/v1/users", userRoutes)
+app.use("/api/v1/category",categoryRoutes)
 
 app.get("/",(req,res)=>{
     res.send("Hello")
