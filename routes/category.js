@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { authenticateUser } = require("../middlewares/Auth");
-const { uploadImage } = require("../middlewares/multer");
+const { uploadFile } = require("../middlewares/multer");
 const { categoryValidationSchema, validateCategory } = require("../middlewares/validateCategory");
 const { createCategory,getAllCategories,getAdminCategories,updateCategoryTitle } = require("../controllers/category");
 
 
-router.post( "/", authenticateUser, uploadImage, categoryValidationSchema, validateCategory, createCategory);
+router.post( "/", authenticateUser, uploadFile, categoryValidationSchema, validateCategory, createCategory);
 
 router.get("/", getAllCategories);
 
