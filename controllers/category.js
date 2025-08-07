@@ -5,51 +5,51 @@ const { uploadToCloudinary } = require("../utils/cloudinary")
 
 //POST METHOD
 async function createCategory(req, res) {
-    try {
-        console.log(req.file);
-        console.log(req.body);
+  try {
+    console.log(req.file);
+    console.log(req.body);
 
-        const { title } = req.body
+    const { title } = req.body
 
-        if (req.user.role !== "admin" && req.user.role !== "super_admin") {
-            return res.status(403).json({
-                status: "Failed",
-                message: "Only admin and super admin can create a category"
-            });
-        }
-
-        console.log(req.file);
-        
-
-        if (!req.file || !req.file.buffer) {
-            return res.status(400).json({
-                status: "Failed",
-                message: "Image is required"
-            })
-        }
-
-        const imageURL = await uploadToCloudinary(req.file.buffer)
-
-        const newCategory = {
-            title,
-            image: imageURL,
-            user_id: req.user._id
-        }
-
-        const data = await Category.create(newCategory)
-
-        res.status(201).json({
-            status: "Success",
-            message: "Category created successfully",
-            data: data
-        })
+    if (req.user.role !== "admin" && req.user.role !== "super_admin") {
+      return res.status(403).json({
+        status: "Failed",
+        message: "Only admin and super admin can create a category"
+      });
     }
-    catch (err) {
-        return res.status(500).json({
-            status: "Failed",
-            message: err.message
-        })
+
+    console.log(req.file);
+
+
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).json({
+        status: "Failed",
+        message: "Image is required"
+      })
     }
+
+    const imageURL = await uploadToCloudinary(req.file.buffer)
+
+    const newCategory = {
+      title,
+      image: imageURL,
+      user_id: req.user._id
+    }
+
+    const data = await Category.create(newCategory)
+
+    res.status(201).json({
+      status: "Success",
+      message: "Category created successfully",
+      data: data
+    })
+  }
+  catch (err) {
+    return res.status(500).json({
+      status: "Failed",
+      message: err.message
+    })
+  }
 }
 
 
@@ -57,15 +57,15 @@ async function createCategory(req, res) {
 const getAllCategories = async (req, res) => {
   try {
     const categories = await Category.find().select("-__v");
-    res.status(200).json({ 
-        success: true, 
-        count: categories.length, categories 
+    res.status(200).json({
+      success: true,
+      count: categories.length, categories
     });
   } catch (error) {
-    res.status(500).json({ 
-        success: false,
-         message: "Server error while fetching categories" 
-        });
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching categories"
+    });
   }
 };
 
@@ -84,10 +84,10 @@ const getAdminCategories = async (req, res) => {
 
     res.status(200).json({ success: true, categories });
   } catch (error) {
-    res.status(500).json({ 
-        success: false, 
-        message: "Failed to fetch categories for admin"
-     });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch categories for admin"
+    });
   }
 };
 
@@ -101,32 +101,31 @@ const updateCategoryTitle = async (req, res) => {
     const category = await Category.findById(categoryId);
     if (!category) {
       return res.status(404).json({
-         success: false, 
-         message: "Category not found"
-         });
+        success: false,
+        message: "Category not found"
+      });
     }
-
     
     if (category.user_id.toString() !== userId.toString() && role !== "super_admin") {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
         message: "Not authorized to update this category"
-         });
+      });
     }
 
     category.title = title;
     await category.save();
 
-    res.status(200).json({ 
-        success: true, 
-        message: "Category updated successfully", category 
+    res.status(200).json({
+      success: true,
+      message: "Category updated successfully", category
     });
   } catch (error) {
-    res.status(500).json({ 
-        success: false, 
-        message: "Update failed" 
+    res.status(500).json({
+      success: false,
+      message: "Update failed"
     });
   }
 };
 
-module.exports = { createCategory, getAllCategories,getAdminCategories,updateCategoryTitle};
+module.exports = { createCategory, getAllCategories, getAdminCategories, updateCategoryTitle };
