@@ -13,7 +13,6 @@ async function authenticateUser(req,res,next){
             })
         }
         let decoded = await jwt.verify(token,jwt_key)
-        // req.user_id = decoded;
         const user = await User.findById(decoded.user_id); 
         if (!user) {
             return res.status(401).json({
