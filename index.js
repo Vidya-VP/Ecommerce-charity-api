@@ -4,6 +4,7 @@ const app = express()
 const userRoutes = require("./routes/user")
 const categoryRoutes = require("./routes/category")
 const charityRoutes=require("./routes/charity")
+const productRoutes=require("./routes/product")
 
 require("dotenv").config();
 const PORT  = process.env.PORT||3000
@@ -25,6 +26,7 @@ function connectMongoDB(){
 app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/category",categoryRoutes)
 app.use("/api/v1/charity",charityRoutes)
+app.use("/api/v1/product",productRoutes)
 
 app.get("/",(req,res)=>{
     res.send("Hello")
