@@ -5,6 +5,7 @@ const userRoutes = require("./routes/user")
 const categoryRoutes = require("./routes/category")
 const charityRoutes=require("./routes/charity")
 const productRoutes=require("./routes/product")
+const addressRoutes=require("./routes/address")
 
 require("dotenv").config();
 const PORT  = process.env.PORT||3000
@@ -27,6 +28,7 @@ app.use("/api/v1/users", userRoutes)
 app.use("/api/v1/category",categoryRoutes)
 app.use("/api/v1/charity",charityRoutes)
 app.use("/api/v1/product",productRoutes)
+app.use("/api/v1/users/address",addressRoutes)
 
 app.get("/",(req,res)=>{
     res.send("Hello")
